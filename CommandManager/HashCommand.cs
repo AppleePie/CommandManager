@@ -5,20 +5,20 @@ namespace CommandManager
 {
     public class HashCommand : ICommand
     {
-        public IExecutor FileExecutor { get; }
+        public IExecutor Executor { get; }
         public IWorker Worker { get; }
         public IResult FileResult { get; }
 
-        public HashCommand(IExecutor fileExecutor, IWorker worker, IResult fileResult)
+        public HashCommand(IExecutor executor, IWorker worker, IResult fileResult)
         {
             Worker = worker;
             FileResult = fileResult;
-            FileExecutor = fileExecutor;
+            Executor = executor;
         }
 
         public Result<None> Run() =>
             Worker
-                .Process(FileExecutor)
+                .Process(Executor)
                 .AsResult()
                 .Then(FileResult.DumpResult);
     }

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
 using CommandManager.Contracts;
 using CommandManager.Infrastructure;
 
@@ -8,32 +8,18 @@ namespace CommandManager
 {
     public class Md5Executor : IExecutor
     {
-        public Result<string> Execute(string filePath)
+        public Result<string> Execute(string filePath) =>
+            File.Exists(filePath) 
+                ? $"MD5 hash for {filePath}: {CalculateMd5(filePath)}" 
+                : Result.Fail<string>($"Error: {filePath} is not exists!");
+
+        private static string CalculateMd5(string filename)
         {
-            if (!File.Exists(filePath))
-                return Result.Fail<string>($"Error: {filePath} is not exists!");
-
-            var process = new Process
-            {
-                StartInfo =
-                {
-                    FileName = "certutil",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    Arguments = $@"-hashfile {filePath} MD5"
-                }
-            };
-
-            process.Start();
-            process.WaitForExit();
-            var result = process.StandardOutput.ReadToEnd();
-
-            return !result.Contains("ERROR")
-                ? $"MD5 hash for {filePath}: {ExtractMd5Hash(result)}" 
-                : Result.Fail<string>($"Exception was thrown trying process MD5-hash for {filePath}");
+            using var md5 = MD5.Create();
+            using var stream = File.OpenRead(filename);
+            
+            var hash = md5.ComputeHash(stream);
+            return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
         }
-
-        private static string ExtractMd5Hash(string result) => result.Split(Environment.NewLine)[1];
     }
 }

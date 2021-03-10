@@ -4,7 +4,7 @@ namespace CommandManager.Contracts
 {
     public interface ICommand
     {
-        public IExecutor FileExecutor { get; }
+        public IExecutor Executor { get; }
         public IWorker Worker { get; }
         public IResult FileResult { get; }
 
