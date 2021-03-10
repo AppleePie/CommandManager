@@ -8,8 +8,8 @@ namespace CommandManager
 {
     public class FileWorker : IWorker
     {
-        public string WorkingPath { get; }
-        public bool IsRecursive { get; }
+        private string WorkingPath { get; }
+        private bool IsRecursive { get; }
 
         public FileWorker(string workingPath, bool isRecursive)
         {
