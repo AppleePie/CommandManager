@@ -6,18 +6,18 @@ namespace CommandManager
     public class HashCommand : ICommand
     {
         public IExecutor FileExecutor { get; }
-        public IFileWorker FileWorker { get; }
+        public IWorker Worker { get; }
         public IResult FileResult { get; }
 
-        public HashCommand(IExecutor fileExecutor, IFileWorker fileWorker, IResult fileResult)
+        public HashCommand(IExecutor fileExecutor, IWorker worker, IResult fileResult)
         {
-            FileWorker = fileWorker;
+            Worker = worker;
             FileResult = fileResult;
             FileExecutor = fileExecutor;
         }
 
         public Result<None> Run() =>
-            FileWorker
+            Worker
                 .Process(FileExecutor)
                 .AsResult()
                 .Then(FileResult.DumpResult);

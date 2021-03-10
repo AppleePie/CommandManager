@@ -3,7 +3,7 @@ using CommandManager.Infrastructure;
 
 namespace CommandManager.Contracts
 {
-    public interface IFileWorker
+    public interface IWorker
     {
         string WorkingPath { get; }
         bool IsRecursive { get; }

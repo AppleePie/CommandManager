@@ -16,7 +16,7 @@ namespace CommandManager.Infrastructure
         public static void RegisterContractImplementations()
         {
             Builder.RegisterType<Md5Executor>().As<IExecutor>();
-            Builder.RegisterType<FileWorker>().As<IFileWorker>();
+            Builder.RegisterType<FileWorker>().As<IWorker>();
             Builder.RegisterType<ConsoleFileResult>().As<IResult>();
             Builder.RegisterType<HashCommand>().As<ICommand>();
         }

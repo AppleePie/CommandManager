@@ -6,7 +6,7 @@ using CommandManager.Infrastructure;
 
 namespace CommandManager
 {
-    public class FileWorker : IFileWorker
+    public class FileWorker : IWorker
     {
         public string WorkingPath { get; }
         public bool IsRecursive { get; }
