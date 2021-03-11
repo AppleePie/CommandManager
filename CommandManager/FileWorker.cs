@@ -23,7 +23,8 @@ namespace CommandManager
 
             return Directory
                 .EnumerateFiles(WorkingPath, "*", searchOption)
-                .Select(executor.Execute);
+                .Select(executor.Execute)
+                .Append(executor.Execute(Path.GetDirectoryName(WorkingPath)));
         }
     }
 }
