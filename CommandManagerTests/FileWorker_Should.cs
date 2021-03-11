@@ -30,7 +30,7 @@ namespace CommandManagerTests
                 .Process(executor)
                 .Count()
                 .Should()
-                .Be(1);
+                .Be(2);
 
         [Test]
         public void Process_IsRecursive_OneResult() =>
@@ -38,14 +38,14 @@ namespace CommandManagerTests
                 .Process(executor)
                 .Count()
                 .Should()
-                .Be(2);
+                .Be(3);
 
         [Test]
         public void Process_Md5Executor_OneCorrectResult()
         {
             var exec = new Md5Executor();
             var results = new FileWorker(workingPath, false).Process(exec).ToList();
-            results.Count.Should().Be(1);
+            results.Count.Should().Be(2);
 
             Action callResult = () => results.First().GetValueOrThrow();
 
@@ -61,7 +61,7 @@ namespace CommandManagerTests
         public void Process_Md5Executor_SeveralCorrectResult()
         {
             var exec = new Md5Executor();
-            var results = new FileWorker(workingPath, true).Process(exec).ToList();
+            var results = new FileWorker(workingPath, true).Process(exec).Take(2).ToList();
             results.Count.Should().Be(2);
 
             Action callResult = () => results.First().GetValueOrThrow();

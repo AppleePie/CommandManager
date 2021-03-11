@@ -11,6 +11,7 @@ namespace CommandManager
         {
             foreach (var result in results)
                 result.Then(Console.WriteLine);
+            Console.WriteLine();
 
             return Result.Ok();
         }
