@@ -7,12 +7,12 @@ namespace CommandManager
     {
         public IExecutor Executor { get; }
         public IWorker Worker { get; }
-        public IResult FileResult { get; }
+        public IResult Result { get; }
 
-        public HashCommand(IExecutor executor, IWorker worker, IResult fileResult)
+        public HashCommand(Md5Executor executor, IWorker worker, IResult fileResult)
         {
             Worker = worker;
-            FileResult = fileResult;
+            Result = fileResult;
             Executor = executor;
         }
 
@@ -20,6 +20,6 @@ namespace CommandManager
             Worker
                 .Process(Executor)
                 .AsResult()
-                .Then(FileResult.DumpResult);
+                .Then(Result.DumpResult);
     }
 }

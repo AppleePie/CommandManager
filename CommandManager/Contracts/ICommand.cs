@@ -6,7 +6,7 @@ namespace CommandManager.Contracts
     {
         public IExecutor Executor { get; }
         public IWorker Worker { get; }
-        public IResult FileResult { get; }
+        public IResult Result { get; }
 
         public Result<None> Run();
     }

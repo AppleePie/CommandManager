@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Core;
 using CommandManager.Contracts;
 
 namespace CommandManager.Infrastructure
@@ -15,10 +16,15 @@ namespace CommandManager.Infrastructure
 
         public static void RegisterContractImplementations()
         {
-            Builder.RegisterType<Md5Executor>().As<IExecutor>();
-            Builder.RegisterType<FileWorker>().As<IWorker>();
-            Builder.RegisterType<ConsoleFileResult>().As<IResult>();
+            Builder.RegisterType<FileWorker>().As<IWorker>().SingleInstance();
+
+            Builder.RegisterType<Md5Executor>().AsSelf().As<IExecutor>();
+            Builder.RegisterType<ConsoleResult>().As<IResult>();
             Builder.RegisterType<HashCommand>().As<ICommand>();
+
+            Builder.RegisterType<PrintFileExecutor>().AsSelf().As<IExecutor>();
+            Builder.RegisterType<ConsoleResult>().As<IResult>();
+            Builder.RegisterType<PrintCommand>().As<ICommand>();
         }
 
         public static void RegisterTypes() => Builder.RegisterType<TaskManager>().AsSelf().SingleInstance();

@@ -5,7 +5,7 @@ using CommandManager.Infrastructure;
 
 namespace CommandManager
 {
-    public class ConsoleFileResult : IResult
+    public class ConsoleResult : IResult
     {
         public Result<None> DumpResult(IEnumerable<Result<string>> results)
         {
