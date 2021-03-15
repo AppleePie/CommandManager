@@ -9,11 +9,11 @@ namespace CommandManager
         public IWorker Worker { get; }
         public IResult Result { get; }
 
-        public PrintCommand(PrintFileExecutor executor, IWorker worker, IResult fileResult)
+        public PrintCommand(IExecutor executor, IWorker worker, IResult fileResult)
         {
             Executor = executor;
             Worker = worker;
-            Result = new FileResult();
+            Result = fileResult;
         }
 
         public Result<None> Run() => Worker

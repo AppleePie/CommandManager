@@ -9,7 +9,7 @@ namespace CommandManager
         public IWorker Worker { get; }
         public IResult Result { get; }
 
-        public HashCommand(Md5Executor executor, IWorker worker, IResult fileResult)
+        public HashCommand(IExecutor executor, IWorker worker, IResult fileResult)
         {
             Worker = worker;
             Result = fileResult;

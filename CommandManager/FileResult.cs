@@ -12,7 +12,7 @@ namespace CommandManager
         {
             var totalResultInfo = new StringBuilder();
             foreach (var result in results) 
-                result.Then(totalResultInfo.Append);
+                result.Then(totalResultInfo.AppendLine);
             
             File.WriteAllText("CommandResult.txt", totalResultInfo.ToString());
 

@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Autofac.Core;
 using CommandManager.Contracts;
 
 namespace CommandManager.Infrastructure
@@ -11,7 +10,7 @@ namespace CommandManager.Infrastructure
         public static void RegisterArguments(string directoryPath, bool isRecursive)
         {
             Builder.Register(context => directoryPath).SingleInstance();
-            Builder.Register(context => isRecursive);
+            Builder.Register(context => isRecursive).SingleInstance();
         }
 
         public static void RegisterContractImplementations()
@@ -19,12 +18,25 @@ namespace CommandManager.Infrastructure
             Builder.RegisterType<FileWorker>().As<IWorker>().SingleInstance();
 
             Builder.RegisterType<Md5Executor>().AsSelf().As<IExecutor>();
-            Builder.RegisterType<ConsoleResult>().As<IResult>();
-            Builder.RegisterType<HashCommand>().As<ICommand>();
+            Builder.RegisterType<FileResult>().AsSelf().As<IResult>();
+            Builder
+                .Register(context => new HashCommand(
+                        context.Resolve<Md5Executor>(),
+                        context.Resolve<IWorker>(),
+                        context.Resolve<FileResult>()
+                    )
+                )
+                .As<ICommand>();
 
             Builder.RegisterType<PrintFileExecutor>().AsSelf().As<IExecutor>();
-            Builder.RegisterType<ConsoleResult>().As<IResult>();
-            Builder.RegisterType<PrintCommand>().As<ICommand>();
+            Builder.RegisterType<ConsoleResult>().AsSelf().As<IResult>();
+            Builder.Register(context => new HashCommand(
+                        context.Resolve<PrintFileExecutor>(),
+                        context.Resolve<IWorker>(),
+                        context.Resolve<ConsoleResult>()
+                    )
+                )
+                .As<ICommand>();
         }
 
         public static void RegisterTypes() => Builder.RegisterType<TaskManager>().AsSelf().SingleInstance();
