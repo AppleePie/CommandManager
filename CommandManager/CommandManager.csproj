@@ -11,8 +11,14 @@
 
     <ItemGroup>
       <PackageReference Include="Autofac" Version="6.1.0" />
-      <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
       <PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20574.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="TestDirectory\TestFile.txt" />
+      <Content Include="TestDirectory\TestFile.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

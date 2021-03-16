@@ -1,0 +1,2 @@
+﻿MD5 hash for D:\Tasks\CommandManager\CommandManagerTests\bin\Debug\netcoreapp3.1\TestDir\NewFile.txt: c7d96398128a3d927be521fe379d1253
+Total MD5 hash for directory D:\Tasks\CommandManager\CommandManagerTests\bin\Debug\netcoreapp3.1\TestDir: c7d96398128a3d927be521fe379d1253

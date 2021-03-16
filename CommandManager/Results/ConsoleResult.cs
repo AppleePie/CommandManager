@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CommandManager.Contracts;
 using CommandManager.Infrastructure;
 
-namespace CommandManager
+namespace CommandManager.Results
 {
     public class ConsoleResult : IResult
     {

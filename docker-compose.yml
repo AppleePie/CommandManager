@@ -1,0 +1,11 @@
+﻿version: '3.7'
+
+services:
+  command-manager:
+    build: .
+    restart: on-failure
+    container_name: command-manager
+    ports:
+      - 5000:80
+    volumes:
+      - "D:\\Tasks\\CommandManager\\CommandResult:/app/CommandResult/"

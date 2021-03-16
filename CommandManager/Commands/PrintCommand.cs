@@ -1,7 +1,7 @@
 ﻿using CommandManager.Contracts;
 using CommandManager.Infrastructure;
 
-namespace CommandManager
+namespace CommandManager.Commands
 {
     public class PrintCommand : ICommand
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CommandManager;
+using CommandManager.Executors;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -8,13 +9,10 @@ namespace CommandManagerTests
 {
     public class Md5Executor_Should
     {
-        private Md5Executor executor;
+        private Md5Executor executor = new Md5Executor();
         private const string CorrectFile = "TestFile.txt";
         private const string AnotherCorrectFile = "AnotherTestFile.txt";
         private const string IncorrectFile = "NOT_EXISTING_FILE.txt";
-
-        [OneTimeSetUp]
-        public void Initialize() => executor = new Md5Executor();
 
         [Test]
         public void Execute_FileNotExists_Error()

@@ -21,10 +21,16 @@ namespace CommandManager
         {
             var searchOption = IsRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
-            return Directory
-                .EnumerateFiles(WorkingPath, "*", searchOption)
-                .Select(executor.Execute)
-                .Append(executor.Execute(WorkingPath));
+            if (File.Exists(WorkingPath))
+                return Enumerable.Repeat(executor.Execute(WorkingPath), 1);
+
+            if (Directory.Exists(WorkingPath))
+                return Directory
+                    .EnumerateFiles(WorkingPath, "*", searchOption)
+                    .Select(executor.Execute)
+                    .Append(executor.Execute(WorkingPath));
+
+            return Enumerable.Repeat( Result.Fail<string>($"Error: {WorkingPath} is not f"), 1);
         }
     }
 }

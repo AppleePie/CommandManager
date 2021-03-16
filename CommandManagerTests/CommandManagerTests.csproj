@@ -30,6 +30,12 @@
       <Content Include="TestDir\NewFile.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Update="ConsoleResult_Should.DumpResult_RunHashCommand_CorrectResultInConsole.approved.txt">
+        <DependentUpon>ConsoleResult_Should.cs</DependentUpon>
+      </None>
+      <None Update="FileResult_Should.DumpResult_RunCommand_CorrectResultInFile.approved.txt">
+        <DependentUpon>FileResult_Should.cs</DependentUpon>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

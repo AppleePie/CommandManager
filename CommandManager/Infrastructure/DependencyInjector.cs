@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using CommandManager.Commands;
 using CommandManager.Contracts;
+using CommandManager.Executors;
+using CommandManager.Results;
 
 namespace CommandManager.Infrastructure
 {
@@ -23,17 +26,17 @@ namespace CommandManager.Infrastructure
                 .Register(context => new HashCommand(
                         context.Resolve<Md5Executor>(),
                         context.Resolve<IWorker>(),
-                        context.Resolve<FileResult>()
+                        context.Resolve<ConsoleResult>()
                     )
                 )
                 .As<ICommand>();
 
             Builder.RegisterType<PrintFileExecutor>().AsSelf().As<IExecutor>();
             Builder.RegisterType<ConsoleResult>().AsSelf().As<IResult>();
-            Builder.Register(context => new HashCommand(
+            Builder.Register(context => new PrintCommand(
                         context.Resolve<PrintFileExecutor>(),
                         context.Resolve<IWorker>(),
-                        context.Resolve<ConsoleResult>()
+                        context.Resolve<FileResult>()
                     )
                 )
                 .As<ICommand>();

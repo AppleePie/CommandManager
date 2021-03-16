@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using CommandManager;
 using CommandManager.Contracts;
+using CommandManager.Executors;
 using CommandManager.Infrastructure;
 using NUnit.Framework;
 using FluentAssertions;

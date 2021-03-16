@@ -5,17 +5,17 @@ using System.Security.Cryptography;
 using CommandManager.Contracts;
 using CommandManager.Infrastructure;
 
-namespace CommandManager
+namespace CommandManager.Executors
 {
     public class Md5Executor : IExecutor
     {
-        public Result<string> Execute(string path)
+        public Result<string> Execute(string filePath)
         {
-            if (Directory.Exists(path))
-                return $"Total MD5 hash for directory {path}: {HashToString(ComputeHashForDirectory(path))}";
-            if (File.Exists(path))
-                return $"MD5 hash for {path}: {HashToString(CalculateMd5(path))}";
-            return Result.Fail<string>($"Error: {path} is not exists!");
+            if (Directory.Exists(filePath))
+                return $"Total MD5 hash for directory {filePath}: {HashToString(ComputeHashForDirectory(filePath))}";
+            if (File.Exists(filePath))
+                return $"MD5 hash for {filePath}: {HashToString(CalculateMd5(filePath))}";
+            return Result.Fail<string>($"Error: {filePath} is not exists!");
         }
 
         private static string HashToString(byte[] hash) => BitConverter
