@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using CommandManager.Commands;
 using CommandManager.Contracts;
 using CommandManager.Executors;
@@ -26,7 +27,7 @@ namespace CommandManager.Infrastructure
                 .Register(context => new HashCommand(
                         context.Resolve<Md5Executor>(),
                         context.Resolve<IWorker>(),
-                        context.Resolve<FileResult>()
+                        context.Resolve<ConsoleResult>()
                     )
                 )
                 .As<ICommand>();
@@ -36,7 +37,7 @@ namespace CommandManager.Infrastructure
             Builder.Register(context => new PrintCommand(
                         context.Resolve<PrintFileExecutor>(),
                         context.Resolve<IWorker>(),
-                        context.Resolve<FileResult>()
+                        context.Resolve<ConsoleResult>()
                     )
                 )
                 .As<ICommand>();
