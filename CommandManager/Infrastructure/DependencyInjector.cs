@@ -26,7 +26,7 @@ namespace CommandManager.Infrastructure
                 .Register(context => new HashCommand(
                         context.Resolve<Md5Executor>(),
                         context.Resolve<IWorker>(),
-                        context.Resolve<ConsoleResult>()
+                        context.Resolve<FileResult>()
                     )
                 )
                 .As<ICommand>();

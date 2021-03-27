@@ -16,7 +16,7 @@ namespace CommandManager.Commands
             Executor = executor;
         }
 
-        public Result<None> Run() =>
+        public void Run() =>
             Worker
                 .Process(Executor)
                 .AsResult()

@@ -16,7 +16,7 @@ namespace CommandManager.Commands
             Result = fileResult;
         }
 
-        public Result<None> Run() => Worker
+        public void Run() => Worker
             .Process(Executor)
             .AsResult()
             .Then(Result.DumpResult);

@@ -8,6 +8,6 @@ namespace CommandManager.Contracts
         public IWorker Worker { get; }
         public IResult Result { get; }
 
-        public Result<None> Run();
+        public void Run();
     }
 }
