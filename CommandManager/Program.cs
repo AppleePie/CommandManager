@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CommandLine.DragonFruit;
 using Autofac;
 using CommandManager.Infrastructure;
 

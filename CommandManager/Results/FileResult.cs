@@ -18,10 +18,7 @@ namespace CommandManager.Results
                 result.Then(totalResultInfo.AppendLine);
             totalResultInfo.AppendLine();
             
-            File.WriteAllText(Path.Combine("CommandResult", FileResultPath), totalResultInfo.ToString());
-            Console.WriteLine(File.ReadAllText(Path.Combine("CommandResult", FileResultPath)));
-
-            Directory.EnumerateFiles(Directory.GetCurrentDirectory() + "/CommandResult/").ToList().ForEach(Console.WriteLine);
+            File.WriteAllText(FileResultPath, totalResultInfo.ToString());
 
             return Result.Ok();
         }
