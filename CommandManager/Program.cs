@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Autofac;
+using CommandManager.Contracts;
 using CommandManager.Infrastructure;
 
 namespace CommandManager
@@ -22,9 +24,13 @@ namespace CommandManager
             DependencyInjector.RegisterArguments(directoryPath, isRecursive);
             DependencyInjector.RegisterContractImplementations();
             DependencyInjector.RegisterTypes();
-
+            
             using var container = DependencyInjector.Build();
-            container.Resolve<TaskManager>().ExecuteAll();
+            
+            var taskManager = container.Resolve<TaskManager>();
+            var commands = container.Resolve<IEnumerable<ICommand>>();
+            foreach (var command in commands) 
+                taskManager.Add(command);
         }
     }
 }

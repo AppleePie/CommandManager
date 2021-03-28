@@ -15,8 +15,11 @@ namespace CommandManager.Results
             foreach (var result in results) 
                 result.Then(totalResultInfo.AppendLine);
             totalResultInfo.AppendLine();
-            
-            File.WriteAllText(FileResultPath, totalResultInfo.ToString());
+
+            lock (FileResultPath)
+            {
+                File.AppendAllText(FileResultPath, totalResultInfo.ToString());   
+            }
 
             return Result.Ok();
         }

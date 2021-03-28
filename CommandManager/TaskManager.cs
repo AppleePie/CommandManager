@@ -1,54 +1,33 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using CommandManager.Contracts;
-using CommandManager.Infrastructure;
 
 namespace CommandManager
 {
     public class TaskManager
     {
-        private static readonly Dictionary<int, Action> States = new Dictionary<int, Action>();
-        private static readonly Dictionary<int, bool> IsFree = new Dictionary<int, bool>();
-        private const int DefaultPoolSize = 2;
-        private Queue<ICommand> Tasks { get; }
-        public TaskManager(IEnumerable<ICommand> commands)
+        private ThreadWorker ThreadWorker { get; }
+        private ThreadMonitor ThreadMonitor { get; }
+        private MyThread[] ThreadPool { get; }
+        private readonly int defaultPoolSize = Environment.ProcessorCount - 2;
+        public TaskManager(int maxPoolSize = default)
         {
-            Tasks = new Queue<ICommand>(commands);
-            for (var i = 0; i < DefaultPoolSize; i++)
-            {
-                var thread = new Thread(Run);
-                IsFree[thread.ManagedThreadId] = true;
-                thread.Start();
-            }
+            var poolSize = maxPoolSize > 0 ? maxPoolSize : defaultPoolSize;
+            ThreadPool = new MyThread[poolSize];
+            
+            for (var i = 0; i < poolSize; i++) 
+                ThreadPool[i] = new MyThread();
+            
+            ThreadWorker = new ThreadWorker(ThreadPool);
+            ThreadMonitor = new ThreadMonitor(ThreadPool);
+            new MyThread().Task = ThreadWorker.ExecuteQueue;
+            new MyThread().Task = ThreadMonitor.ExecuteMonitor;
         }
 
-        public void ExecuteAll()
+        public void Add(ICommand command)
         {
-            while (Tasks.Any())
+            lock (ThreadWorker.TasksQueue)
             {
-                var firstFreeThread = IsFree.SkipWhile(pair => !pair.Value).First().Key;
-                IsFree[firstFreeThread] = false;
-                States[firstFreeThread] = Tasks.Dequeue().Run;
-            }
-        }
-
-        private static void Run()
-        {
-            while (true)
-            {
-                var threadId = Thread.CurrentThread.ManagedThreadId;
-                if (States.ContainsKey(threadId))
-                {
-                    States[threadId]();
-                    States.Remove(threadId);
-                    IsFree[threadId] = true;
-                }
-                else
-                    Thread.Sleep(1);
+                ThreadWorker.TasksQueue.Enqueue(command);       
             }
         }
     }
