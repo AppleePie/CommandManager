@@ -8,17 +8,19 @@ namespace CommandManager.Results
 {
     public class FileResult : IResult
     {
-        public static string FileResultPath = "CommandResult.txt";
-        public Result<None> DumpResult(IEnumerable<Result<string>> results)
+        public const string FileResultPath = "Result.txt";
+        public Result<None> DumpResult(string commandName, IEnumerable<Result<string>> results)
         {
             var totalResultInfo = new StringBuilder();
             foreach (var result in results) 
                 result.Then(totalResultInfo.AppendLine);
             totalResultInfo.AppendLine();
+            
+            var fullName = $"{commandName}.{FileResultPath}";
 
-            lock (FileResultPath)
+            lock (fullName)
             {
-                File.AppendAllText(FileResultPath, totalResultInfo.ToString());   
+                File.WriteAllText(fullName, totalResultInfo.ToString());
             }
 
             return Result.Ok();

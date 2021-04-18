@@ -23,18 +23,18 @@ namespace CommandManagerTests
             executor = A.Fake<IExecutor>();
             A.CallTo(() => executor.Execute("test")).Returns(Result.Ok("Done!"));
         }
-        
+
         [Test]
         public void DumpResult_EmptyInput_EmptyOutput()
         {
             const string tempFile = "test.txt";
             var so = new StreamWriter(tempFile) {AutoFlush = true};
-            
+
             Console.SetOut(so);
-            resulter.DumpResult(Enumerable.Empty<Result<string>>());
+            resulter.DumpResult("Test", Enumerable.Empty<Result<string>>());
             so.Close();
 
-            File.ReadAllText(tempFile).Should().Be(Environment.NewLine);
+            File.ReadAllText(tempFile).Should().Be("Test Result:" + Environment.NewLine + Environment.NewLine);
             File.Delete(tempFile);
         }
 
@@ -43,12 +43,13 @@ namespace CommandManagerTests
         {
             const string tempFile = "test.txt";
             var so = new StreamWriter(tempFile) {AutoFlush = true};
-            
+
             Console.SetOut(so);
-            resulter.DumpResult(Enumerable.Repeat(executor.Execute("test"), 1));
+            resulter.DumpResult("Test", Enumerable.Repeat(executor.Execute("test"), 1));
             so.Close();
 
-            File.ReadAllText(tempFile).Should().Be("Done!" + Environment.NewLine + Environment.NewLine);
+            File.ReadAllText(tempFile).Should().Be("Test Result:" + Environment.NewLine + "Done!" +
+                                                   Environment.NewLine + Environment.NewLine);
             File.Delete(tempFile);
         }
     }

@@ -11,7 +11,6 @@ using NUnit.Framework;
 
 namespace CommandManagerTests
 {
-    
     [TestFixture]
     public class FileResult_Should
     {
@@ -28,17 +27,19 @@ namespace CommandManagerTests
         [Test]
         public void DumpResult_EmptyResults_EmptyOutput()
         {
-            resulter.DumpResult(Enumerable.Empty<Result<string>>());
-            File.ReadAllText(FileResult.FileResultPath).Should().Be(Environment.NewLine);
-            File.Delete(FileResult.FileResultPath);
+            resulter.DumpResult("Test1", Enumerable.Empty<Result<string>>());
+            var readAllText = File.ReadAllText("Test1." + FileResult.FileResultPath);
+            readAllText.Should().Be(Environment.NewLine);
+            File.Delete("Test1." + FileResult.FileResultPath);
         }
 
         [Test]
         public void DumpResult_RunCommand_CorrectResultInFile()
         {
-            resulter.DumpResult(Enumerable.Repeat(executor.Execute("test"), 1));
-            File.ReadAllText(FileResult.FileResultPath).Should().Be("Done!" + Environment.NewLine + Environment.NewLine);
-            File.Delete(FileResult.FileResultPath);
+            resulter.DumpResult("Test2", Enumerable.Repeat(executor.Execute("test"), 1));
+            File.ReadAllText("Test2." + FileResult.FileResultPath).Should()
+                .Be("Done!" + Environment.NewLine + Environment.NewLine);
+            File.Delete("Test2." + FileResult.FileResultPath);
         }
     }
 }

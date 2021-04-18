@@ -16,9 +16,10 @@ namespace CommandManager.Commands
             Result = fileResult;
         }
 
-        public void Run() => Worker
-            .Process(Executor)
-            .AsResult()
-            .Then(Result.DumpResult);
+        public void Run() => Result
+            .DumpResult(
+                nameof(PrintCommand),
+                Worker.Process(Executor)
+            );
     }
 }

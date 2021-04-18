@@ -4,6 +4,7 @@ using CommandManager.Commands;
 using CommandManager.Contracts;
 using CommandManager.Executors;
 using CommandManager.Results;
+using CommandManager.ThreadPool;
 
 namespace CommandManager.Infrastructure
 {
@@ -27,7 +28,7 @@ namespace CommandManager.Infrastructure
                 .Register(context => new HashCommand(
                         context.Resolve<Md5Executor>(),
                         context.Resolve<IWorker>(),
-                        context.Resolve<ConsoleResult>()
+                        context.Resolve<FileResult>()
                     )
                 )
                 .As<ICommand>();
@@ -37,13 +38,21 @@ namespace CommandManager.Infrastructure
             Builder.Register(context => new PrintCommand(
                         context.Resolve<PrintFileExecutor>(),
                         context.Resolve<IWorker>(),
-                        context.Resolve<ConsoleResult>()
+                        context.Resolve<FileResult>()
+                    )
+                )
+                .As<ICommand>();
+
+            Builder.RegisterType<First10FibonacciSum>().AsSelf();
+            Builder.Register(context => new FibonacciSumCommand(
+                        context.Resolve<First10FibonacciSum>(),
+                        context.Resolve<FileResult>()
                     )
                 )
                 .As<ICommand>();
         }
 
-        public static void RegisterTypes() => Builder.RegisterType<TaskManager>().AsSelf().SingleInstance();
+        public static void RegisterTypes() => Builder.RegisterType<MyThreadPool>().AsSelf().SingleInstance();
 
         public static IContainer Build() => Builder.Build();
     }

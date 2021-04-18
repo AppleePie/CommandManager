@@ -16,10 +16,10 @@ namespace CommandManager.Commands
             Executor = executor;
         }
 
-        public void Run() =>
-            Worker
-                .Process(Executor)
-                .AsResult()
-                .Then(Result.DumpResult);
+        public void Run() => Result
+            .DumpResult(
+                nameof(HashCommand),
+                Worker.Process(Executor)
+            );
     }
 }

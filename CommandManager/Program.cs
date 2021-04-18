@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Autofac;
 using CommandManager.Contracts;
 using CommandManager.Infrastructure;
+using CommandManager.ThreadPool;
 
 namespace CommandManager
 {
@@ -13,13 +14,9 @@ namespace CommandManager
         /// </summary>
         /// <param name="directoryPath">Directory for running</param>
         /// <param name="isRecursive" alias="r">Flag for applying commands to subdirectories</param>
-        static void Main(string directoryPath, bool isRecursive)
+        private static void Main(string directoryPath, bool isRecursive)
         {
-            if (directoryPath is null)
-            {
-                Console.WriteLine("Directory not found. Use default: TestDirectory");
-                directoryPath = "TestDirectory";
-            }
+            directoryPath ??= Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             DependencyInjector.RegisterArguments(directoryPath, isRecursive);
             DependencyInjector.RegisterContractImplementations();
@@ -27,10 +24,10 @@ namespace CommandManager
             
             using var container = DependencyInjector.Build();
             
-            var taskManager = container.Resolve<TaskManager>();
+            var taskManager = container.Resolve<MyThreadPool>();
             var commands = container.Resolve<IEnumerable<ICommand>>();
             foreach (var command in commands) 
-                taskManager.Add(command);
+                taskManager.Add(command.Run);
         }
     }
 }
