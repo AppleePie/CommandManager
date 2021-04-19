@@ -6,8 +6,8 @@ namespace CommandManager.Executors
 {
     public class PrintFileExecutor : IExecutor
     {
-        public Result<string> Execute(string filePath) => File.Exists(filePath)
-            ? File.ReadAllText(filePath)
-            : Result.Fail<string>($"Error: {filePath} is not exists!");
+        public Result<string> Execute(string path) => File.Exists(path)
+            ? File.ReadAllText(path)
+            : Result.Fail<string>($"Error: {path} is not exists!");
     }
 }

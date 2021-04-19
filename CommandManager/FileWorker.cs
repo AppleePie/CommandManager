@@ -26,9 +26,9 @@ namespace CommandManager
 
             if (Directory.Exists(WorkingPath))
                 return Directory
-                    .EnumerateFiles(WorkingPath, "*", searchOption)
-                    .Select(executor.Execute)
-                    .Append(executor.Execute(WorkingPath));
+                    .EnumerateFileSystemEntries(WorkingPath, "", searchOption)
+                    .Select(executor.Execute);
+                    // .Append(executor.Execute(WorkingPath));
 
             return Enumerable.Repeat( Result.Fail<string>($"Error: {WorkingPath} is not f"), 1);
         }

@@ -4,6 +4,6 @@ namespace CommandManager.Contracts
 {
     public interface IExecutor
     {
-        public Result<string> Execute(string filePath);
+        public Result<string> Execute(string path);
     }
 }

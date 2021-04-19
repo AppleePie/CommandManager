@@ -9,7 +9,7 @@ namespace CommandManager.Results
     public class FileResult : IResult
     {
         public const string FileResultPath = "Result.txt";
-        public Result<None> DumpResult(string commandName, IEnumerable<Result<string>> results)
+        public Result<string> DumpResult(string commandName, IEnumerable<Result<string>> results)
         {
             var totalResultInfo = new StringBuilder();
             foreach (var result in results) 
@@ -23,7 +23,7 @@ namespace CommandManager.Results
                 File.WriteAllText(fullName, totalResultInfo.ToString());
             }
 
-            return Result.Ok();
+            return Result.Ok("");
         }
     }
 }

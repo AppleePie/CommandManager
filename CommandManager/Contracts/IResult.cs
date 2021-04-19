@@ -5,6 +5,6 @@ namespace CommandManager.Contracts
 {
     public interface IResult
     {
-        public Result<None> DumpResult(string commandName, IEnumerable<Result<string>> results);
+        public Result<string> DumpResult(string commandName, IEnumerable<Result<string>> results);
     }
 }

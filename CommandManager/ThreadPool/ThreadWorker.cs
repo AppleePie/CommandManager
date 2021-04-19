@@ -40,13 +40,13 @@ namespace CommandManager.ThreadPool
 
                     task = Scheduler.Dequeue();
                     IsFree = false;
-                    ThreadResult.ExecuteMonitor();
+                    // ThreadResult.ExecuteMonitor();
                 }
                 
                 task();
-                
+
                 IsFree = true;
-                ThreadResult.ExecuteMonitor();
+                // ThreadResult.ExecuteMonitor();
             }
         }
     }
