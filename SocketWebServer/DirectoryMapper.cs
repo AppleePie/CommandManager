@@ -13,10 +13,8 @@ namespace SocketWebServer
             var htmlResult = new HtmlResult(root, path);
             
             return htmlResult
-                .DumpResult(
-                    nameof(HtmlFileHandler),
-                    fileWorker.Process(fileHandler)
-                ).GetValueOrThrow();
+                .DumpResult(nameof(HtmlFileHandler), fileWorker.Process(fileHandler))
+                .GetValueOrThrow();
         }
     }
 }

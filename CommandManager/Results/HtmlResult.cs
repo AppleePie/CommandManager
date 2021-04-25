@@ -10,12 +10,12 @@ namespace CommandManager.Results
     public class HtmlResult : IResult
     {
         private readonly string relatedPath;
-        private string WorkingPath { get; }
+        private string RootPath { get; }
 
         public HtmlResult(string workingPath, string relatedPath)
         {
-            this.relatedPath = relatedPath;
-            WorkingPath = workingPath;
+            this.relatedPath = relatedPath.Replace("%20", " ");
+            RootPath = workingPath.Replace("%20", " ");
         }
 
         public Result<string> DumpResult(string commandName, IEnumerable<Result<string>> results)
@@ -24,17 +24,19 @@ namespace CommandManager.Results
             builder.Append("<ul>");
             foreach (var result in results)
             {
-                result.Then(path =>
+                result.Then(name =>
                 {
-                    var fullPath = Path.Combine(WorkingPath, relatedPath, path);
-                    var url = $"/{relatedPath}/{path}";
+                    var fullPath = Path.Combine(RootPath, relatedPath, name);
+                    var relatedFolderName = "\\" + relatedPath.Replace(RootPath, "");
+                    var fileUrl = RootPath == relatedPath ? "\\" + name : $"{relatedFolderName}\\{name}";
                     return builder.Append(
-                        $"<li><a href=\"{(File.Exists(fullPath) ? url : Path.GetFileName(path))}\">{path}</a></li>");
+                        $"<li><a href=\"{(File.Exists(fullPath) ? fileUrl : Path.Combine(relatedFolderName, name))}\">{name}</a></li>");
                 });
             }
 
             builder.Append("</ul>");
             return builder.ToString();
         }
+        
     }
 }

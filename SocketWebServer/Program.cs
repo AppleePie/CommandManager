@@ -6,21 +6,22 @@ namespace SocketWebServer
 {
     internal static class Program
     {
-        private static readonly WebServer WebServer = new();
+        private static readonly MyThreadPool ThreadPool = MyThreadPool.GetInstance();
         
         private static void Main()
         {
-            using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var ip = new IPEndPoint(IPAddress.Loopback, 8081);
-            socket.Bind(ip);
-            socket.Listen(10);
-            var threadPool = new MyThreadPool();
-
-            while (true)
-            {
-                var connectedSocket = socket.Accept();
-                threadPool.Add(() => WebServer.SendResponseForRequest(connectedSocket));
-            }
+            var serverHostSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            var ip = new IPEndPoint(IPAddress.Loopback, Config.FileServerPort);
+            serverHostSocket.Bind(ip);
+            serverHostSocket.Listen(10);
+            
+            var cliSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            var cliIp = new IPEndPoint(IPAddress.Loopback, Config.CliRemotePort);
+            cliSocket.Bind(cliIp);
+            cliSocket.Listen();
+            
+            ThreadPool.Add(() => Server.ListenCliRemotePort(cliSocket));
+            ThreadPool.Add(() => Server.ListenFileWebServerPort(serverHostSocket));
         }
     }
 }

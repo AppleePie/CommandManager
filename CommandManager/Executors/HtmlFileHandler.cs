@@ -8,6 +8,6 @@ namespace CommandManager.Executors
     {
         public Result<string> Execute(string path) => File.Exists(path) 
             ? Path.GetFileName(path)
-            : path;
+            : new DirectoryInfo(path).Name;
     }
 }

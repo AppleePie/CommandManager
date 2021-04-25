@@ -13,7 +13,7 @@ namespace CommandManager
 
         public FileWorker(string workingPath, bool isRecursive)
         {
-            WorkingPath = workingPath;
+            WorkingPath = workingPath.Replace("%20", " ");
             IsRecursive = isRecursive;
         }
 

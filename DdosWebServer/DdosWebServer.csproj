@@ -6,12 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
-      <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\CommandManager\CommandManager.csproj" />
+      <ProjectReference Include="..\SocketWebServer\SocketWebServer.csproj" />
     </ItemGroup>
 
 </Project>
